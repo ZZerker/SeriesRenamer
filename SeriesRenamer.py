@@ -1,10 +1,12 @@
 from os import listdir
 from os.path import isfile, join
+from shutil import move
 
 videoExtensions = ["avi", "mkv", "mp4"]
-mypath = join("D:", "Temp", "TestVideos")
-onlyfiles = [f for f in listdir("D:\Temp\TestVideos\\")if isfile(join("D:\Temp\TestVideos\\", f))]
-
+path = join("D:\\","inc","Naruto_Shippuuden")
+destinationPath = join("D:\\","Serien")
+onlyfiles = [f for f in listdir(path)if isfile(join(path, f))]
+seriesName= "Naruto Shippuuden"
 for strfile in onlyfiles:
     splitFile = strfile.split(".")
     if len(splitFile) >= 2:
@@ -12,14 +14,18 @@ for strfile in onlyfiles:
         if extension in videoExtensions:
             print("valid File: " + strfile)
             episodeNumber = ""
-            prevLetterDigit = False
+            fristDigitInName = False
+            prevLetterDigit = True
             for letter in strfile:
-               if letter.isdigit():
-                   if !prevLetterDigit:
-                       pass
-                   episodeNumber+=letter
-            
-            print(episodeNumber)
+                if letter.isdigit():
+                    fristDigitInName = True
+                    if prevLetterDigit:                      
+                        episodeNumber += letter                        
+                elif fristDigitInName:
+                    prevLetterDigit = False
+                
+            print("moving Episode "+episodeNumber)
+            move(join(path,strfile),join(destinationPath,seriesName+" "+episodeNumber+".mp4"))
             
             
         
